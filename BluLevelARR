@@ -2,13 +2,14 @@
 --
 --
 -- Hopefully this make leveling a bit easier. It will look for something, run to it, and hopefully kill it.
--- I have just used this near camp blue frog. but you may want to us Visland and make a small circle loop.
+-- I have just used this near camp blue frog. but you may want to us Visland and make a small circle loop or to make a return home spot when it wonders to far.
 -- why 1000 needles ? because most of everything in ARR can be taken out
 -- with a single 1000 needles, Until you get into the 40s, then it may take 2 or 3
 --
 --Basically pick a place and it should run over, stun them and cast the 1000 needles. 
 --and then look for the next. it also will try and heal .
-
+--if you been using auto fates features, you may want to turn them off, because if the spot you chose has a fate pop up, your Plugins may force that as a priority.
+--
 --Thanks UcanPatates
 
 
