@@ -1,0 +1,194 @@
+--Blue Mage ARR 1-50 v 0.1
+--
+--
+-- Hopefully this make leveling a bit easier. It will look for something, run to it, and hopefully kill it.
+-- I have just used this near camp blue frog. but you may want to us Visland and make a small circle loop.
+-- why 1000 needles ? because most of everything in ARR can be taken out
+-- with a single 1000 needles, Until you get into the 40s, then it may take 2 or 3
+--
+--Basically pick a place and it should run over, stun them and cast the 1000 needles. 
+--and then look for the next. it also will try and heal .
+
+--Thanks UcanPatates
+
+
+
+-- ---
+--Skills needed--
+--Acorn Bomb
+--1000 Needles
+--White Wind
+-----------------
+--Optional But Suggested--
+--Ram Voice--
+
+
+
+
+--TODO
+--Fix Buff Check, HasStatus() not working for the buff check, it just loops.
+-- Can not get the Freeze Count to work, It should cast it three times then switch
+-- to Acorn Blast for sleep, but it just casts once. and then switches.
+-- I am sure it is in a loop somewhere.I would also like to add in a 
+-- distance check when it is casting 1000 needles, incase they moved it would move back closer.
+
+
+------------
+--Settings--
+
+------------
+
+
+local UseRamVoice = true -- Do you have Rams Voice yet? if not put false
+
+local HealChecker = "70" -- What percent do you want it to start healing.if you dont have White wind set it to 1
+local MPChecker = "50" --What Percent do you want to cast Lucid Dreaming.if you dont have Lucid Dreaming set it to 1
+local sendChatMessages = true
+
+---------------------------
+-- Don't Edit These settings
+local freezeCastCount = 0
+
+function Freeze()
+    if TargetHasStatus(1731) == false then
+        if freezeCastCount < 3 then
+            yield("/blueaction \"The Ram's Voice\"")
+            while GetCharacterCondition(27) do
+                yield("/wait 0.3")
+            end
+        else
+            if TargetHasStatus(3) == false then
+                yield("/blueaction \"Acorn Bomb\"")
+                while GetCharacterCondition(27) do
+                    yield("/wait 0.3")
+                end
+            end
+        end
+    end
+end
+
+function Needles()
+    if TargetHasStatus(1731) == true then
+        yield("/blueaction \"1000 Needles\"")
+        while GetCharacterCondition(27) do
+            yield("/wait 0.3")
+        end
+    end
+
+      if TargetHasStatus(3) == true then
+        yield("/blueaction \"1000 Needles\"")
+        while GetCharacterCondition(27) do
+            yield("/wait 0.3")
+        end
+    end
+end
+
+
+function Sleep()
+    if TargetHasStatus(3) == false then
+        yield("/blueaction \"Acorn Bomb\"")
+        while GetCharacterCondition(27) do
+            yield("/wait 0.3")
+        end
+    end
+end
+
+
+function Healcheck()
+    local maxHP = GetMaxHP() 
+    local currentHP = GetHP() 
+    local healthPercentage = (currentHP / maxHP) * 100 
+    
+    local thresholdPercentage = tonumber(HealChecker) 
+
+    if healthPercentage < thresholdPercentage then 
+        yield("/blueaction \"White Wind\"") 
+        while GetCharacterCondition(27) do 
+            yield("/wait 0.3")
+        end
+    end
+end
+
+function MPcheck()
+    local maxMP = GetMaxMP() 
+    local currentMP = GetMP() 
+    local MPPercentage = (currentMP / maxMP) * 100 
+    
+    local thresholdPercentage = tonumber(MPChecker) 
+
+    if MPPercentage < thresholdPercentage then 
+        yield("/ac \"Lucid Dreaming\"") 
+        while GetCharacterCondition(27) do 
+            yield("/wait 0.3")
+        end
+    end
+end
+
+
+
+function NavMove() 
+    repeat
+    yield("/wait 0.1")
+    until not PathIsRunning()
+  end 
+
+
+function BuffCheck()  
+  if HasStatus("1719") == false then
+  yield("/blueaction \"Mighty Guard\"")
+  while GetCharacterCondition(27) do 
+  yield("/wait 0.3")
+   end
+  end
+  if HasStatus("1737") == false then
+  yield("/blueaction \"Toad Oil\"")
+  while GetCharacterCondition(27) do 
+  yield("/wait 0.3")
+   end
+  end
+
+end
+
+
+
+function KillTarget()
+    yield("/targetenemy")
+    yield("/wait 0.1")
+    local targetName = GetTargetName()
+    
+    if targetName ~= "" then
+        while GetDistanceToTarget() > 1 do
+            yield("/wait 1")
+            yield("/vnavmesh movetarget")
+        --    NavMove()
+        end
+   
+     
+        while GetTargetHP() > 1.0 do
+            if PathIsRunning() then
+                PathStop()
+            end
+            
+            if GetCharacterCondition(27) then -- Casting
+                yield("/wait 0.1")
+            else
+                Healcheck() 
+                MPcheck()
+             if UseRamVoice then
+                Freeze()
+                freezeCastCount = freezeCastCount + 1
+                else
+                Sleep()
+             end
+                Needles()
+            end
+            yield("/wait 0.1") 
+        end
+    end
+end
+
+while true do
+    KillTarget()
+    freezeCastCount = 0
+    yield("/wait 0.1")
+end
