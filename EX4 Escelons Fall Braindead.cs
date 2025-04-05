@@ -22,7 +22,7 @@ namespace SplatoonScriptsOfficial.Duties.Dawntrail
 {
     public unsafe class EX4_Escelons_Fall_RoleBased : SplatoonScript
     {
-        public override HashSet<uint>? ValidTerritories { get; } = new() { 1271 };
+        public override HashSet<uint>? ValidTerritories { get; } = new HashSet<uint> { 1271 };
         public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow, Modified for Role-Based");
 
         uint StatusCloseFar = 2970;
@@ -33,7 +33,7 @@ namespace SplatoonScriptsOfficial.Duties.Dawntrail
         uint NpcNameId = 13861;
         int NumSwitches = 0;
         long ForceResetAt = long.MaxValue;
-        List<bool> SequenceIsClose = new();
+        List<bool> SequenceIsClose = new List<bool>();
         bool AdjustPhase = false;
         bool THShockTargeted = false;
 
