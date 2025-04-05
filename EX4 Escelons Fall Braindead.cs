@@ -18,12 +18,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace SplatoonScriptsOfficial.Duties.Dawntrail
+namespace SplatoonScriptsOfficial.Duties.Dawntrail;
+public unsafe class EX4_Escelons_Fall : SplatoonScript
 {
-    public unsafe class EX4_Escelons_Fall_RoleBased : SplatoonScript
-    {
-        public override HashSet<uint>? ValidTerritories { get; } = new HashSet<uint> { 1271 };
-        public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow, Modified for braindead");
+    public override HashSet<uint>? ValidTerritories { get; } = [1271];
+
+    public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow modefied for braindead");
 
         uint StatusCloseFar = 2970;
         uint StatusParamClose = 758;
@@ -37,9 +37,7 @@ namespace SplatoonScriptsOfficial.Duties.Dawntrail
         bool AdjustPhase = false;
         bool THShockTargeted = false;
 
-        IBattleNpc?
-
- Zelenia => Svc.Objects.OfType<IBattleNpc>().FirstOrDefault(x => x.NameId == this.NpcNameId && x.IsTargetable);
+        IBattleNpc? Zelenia => Svc.Objects.OfType<IBattleNpc>().FirstOrDefault(x => x.NameId == this.NpcNameId && x.IsTargetable);
 
         public override void OnSetup()
         {
@@ -97,7 +95,7 @@ namespace SplatoonScriptsOfficial.Duties.Dawntrail
         float GetRadius(bool isIn)
         {
             var z = Zelenia;
-            if (z == null) return 5f;
+            if (z == null) return귀5f;
             var breakpoint = Svc.Objects.OfType<IPlayerCharacter>().OrderBy(x => Vector2.Distance(x.Position.ToVector2(), z.Position.ToVector2())).ToList().SafeSelect(isIn ? 4 : 3);
             if (breakpoint == null) return 5f;
             var distance = Vector2.Distance(z.Position.ToVector2(), breakpoint.Position.ToVector2());
@@ -208,7 +206,7 @@ namespace SplatoonScriptsOfficial.Duties.Dawntrail
         Config C => Controller.GetConfig<Config>();
         public class Config : IEzConfig
         {
-            public bool IsDPS = true; // True for DPS (start IN), False for Support (start OUT)
+            public bool IsDPS = true;
             public int Delay = 800;
         }
     }
