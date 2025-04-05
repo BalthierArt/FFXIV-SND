@@ -25,15 +25,16 @@ public unsafe class EX4_Escelons_Fall : SplatoonScript
 
     public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow modefied for braindead");
 
-        uint StatusCloseFar = 2970;
-        uint StatusParamClose = 758;
-        uint StatusParamFar = 759;
-        uint[] CastSwitcher = { 43182, 43181 };
-        uint RoseBloom3rd = 43541;
+    uint StatusCloseFar = 2970;
+    uint StatusParamClose = 758;
+    uint StatusParamFar = 759;
+    uint[] CastSwitcher = [43182, 43181];
+    uint CastStandard = 43181;
+    uint RoseBloom3rd = 43541;
         uint NpcNameId = 13861;
         int NumSwitches = 0;
         long ForceResetAt = long.MaxValue;
-        List<bool> SequenceIsClose = new List<bool>();
+        List<bool> SequenceIsClose = [];
         bool AdjustPhase = false;
         bool THShockTargeted = false;
 
