@@ -18,13 +18,12 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace SplatoonScriptsOfficial.Duties.Dawntrail;
-public unsafe class EX4_Escelons_Fall : SplatoonScript
+namespace SplatoonScriptsOfficial.Duties.Dawntrail
 {
-    public override HashSet<uint>? ValidTerritories { get; } = [1271];
-
-    public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow Modified for braindead");
-
+    public unsafe class EX4_Escelons_Fall_RoleBased : SplatoonScript
+    {
+        public override HashSet<uint>? ValidTerritories { get; } = new HashSet<uint> { 1271 };
+        public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow, Modified for braindead");
 
         uint StatusCloseFar = 2970;
         uint StatusParamClose = 758;
@@ -38,7 +37,9 @@ public unsafe class EX4_Escelons_Fall : SplatoonScript
         bool AdjustPhase = false;
         bool THShockTargeted = false;
 
-        IBattleNpc? Zelenia => Svc.Objects.OfType<IBattleNpc>().FirstOrDefault(x => x.NameId == this.NpcNameId && x.IsTargetable);
+        IBattleNpc?
+
+ Zelenia => Svc.Objects.OfType<IBattleNpc>().FirstOrDefault(x => x.NameId == this.NpcNameId && x.IsTargetable);
 
         public override void OnSetup()
         {
@@ -52,35 +53,9 @@ public unsafe class EX4_Escelons_Fall : SplatoonScript
 
         public override void OnSettingsDraw()
         {
-            ImGuiEx.Text("Role Selection");
-            bool dpsChanged = ImGui.Checkbox("I am DPS", ref C.IsDPS);
-            ImGui.SameLine();
-            bool supportChanged = ImGui.Checkbox("I am Support", ref C.IsSupport);
-
-            if (dpsChanged)
-            {
-                if (C.IsDPS)
-                {
-                    C.IsSupport = false;
-                }
-                else if (!C.IsSupport)
-                {
-                    C.IsDPS = true;
-                }
-            }
-            if (supportChanged)
-            {
-                if (C.IsSupport)
-                {
-                    C.IsDPS = false;
-                }
-                else if (!C.IsDPS)
-                {
-                    C.IsSupport = true;
-                }
-            }
-
-            ImGuiEx.HelpMarker("DPS always start IN. Support always start OUT.");
+            ImGuiEx.Text("My role:");
+            ImGuiEx.RadioButtonBool("I am DPS (start IN)", "I am Support (start OUT)", ref C.IsDPS);
+            ImGuiEx.HelpMarker("DPS always start IN. Support (Tank/Healer) always start OUT.");
             ImGui.Separator();
             ImGui.SetNextItemWidth(150f);
             ImGuiEx.SliderInt("Delay, ms", ref C.Delay, 0, 1000);
@@ -233,8 +208,7 @@ public unsafe class EX4_Escelons_Fall : SplatoonScript
         Config C => Controller.GetConfig<Config>();
         public class Config : IEzConfig
         {
-            public bool IsDPS = true;
-            public bool IsSupport = false;
+            public bool IsDPS = true; // True for DPS (start IN), False for Support (start OUT)
             public int Delay = 800;
         }
     }
