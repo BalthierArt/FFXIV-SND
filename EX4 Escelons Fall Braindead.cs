@@ -18,19 +18,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace SplatoonScriptsOfficial.Duties.Dawntrail;
-public unsafe class EX4_Escelons_Fall : SplatoonScript
+namespace SplatoonScriptsOfficial.Duties.Dawntrail
 {
-    public override HashSet<uint>? ValidTerritories { get; } = [1271];
+    public unsafe class EX4_Escelons_Fall_Braindead Strat : SplatoonScript
+    {
+        public override HashSet<uint>? ValidTerritories { get; } = new HashSet<uint> { 1271 };
+        public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow, Modified for Braindead");
 
-    public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow modefied for braindead");
-
-    uint StatusCloseFar = 2970;
-    uint StatusParamClose = 758;
-    uint StatusParamFar = 759;
-    uint[] CastSwitcher = [43182, 43181];
-    uint CastStandard = 43181;
-    uint RoseBloom3rd = 43541;
+        uint StatusCloseFar = 2970;
+        uint StatusParamClose = 758;
+        uint StatusParamFar = 759;
+        uint[] CastSwitcher = { 43182, 43181 };
+        uint RoseBloom3rd = 43541;
         uint NpcNameId = 13861;
         int NumSwitches = 0;
         long ForceResetAt = long.MaxValue;
@@ -96,7 +95,7 @@ public unsafe class EX4_Escelons_Fall : SplatoonScript
         float GetRadius(bool isIn)
         {
             var z = Zelenia;
-            if (z == null) return귀5f;
+            if (z == null) return 5f;
             var breakpoint = Svc.Objects.OfType<IPlayerCharacter>().OrderBy(x => Vector2.Distance(x.Position.ToVector2(), z.Position.ToVector2())).ToList().SafeSelect(isIn ? 4 : 3);
             if (breakpoint == null) return 5f;
             var distance = Vector2.Distance(z.Position.ToVector2(), breakpoint.Position.ToVector2());
