@@ -52,7 +52,7 @@ public unsafe class EX4_Escelons_Fall : SplatoonScript
 
         public override void OnSettingsDraw()
         {
-            ImGuiEx.Text("Role Selection (choose one):");
+            ImGuiEx.Text("Role Selection");
             bool dpsChanged = ImGui.Checkbox("I am DPS", ref C.IsDPS);
             ImGui.SameLine();
             bool supportChanged = ImGui.Checkbox("I am Support", ref C.IsSupport);
@@ -80,7 +80,7 @@ public unsafe class EX4_Escelons_Fall : SplatoonScript
                 }
             }
 
-            ImGuiEx.HelpMarker("DPS always start IN. Support (Tank/Healer) always start OUT.");
+            ImGuiEx.HelpMarker("DPS always start IN. Support always start OUT.");
             ImGui.Separator();
             ImGui.SetNextItemWidth(150f);
             ImGuiEx.SliderInt("Delay, ms", ref C.Delay, 0, 1000);
