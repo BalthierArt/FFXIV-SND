@@ -18,12 +18,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Numerics;
 
-namespace SplatoonScriptsOfficial.Duties.Dawntrail
+namespace SplatoonScriptsOfficial.Duties.Dawntrail;
+public unsafe class EX4_Escelons_Fall : SplatoonScript
 {
-    public unsafe class EX4_Escelons_Fall_RoleBased : SplatoonScript
-    {
-        public override HashSet<uint>? ValidTerritories { get; } = new HashSet<uint> { 1271 };
-        public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow, Modified for Role-Based");
+    public override HashSet<uint>? ValidTerritories { get; } = [1271];
+
+    public override Metadata? Metadata => new(6, "NightmareXIV, Redmoonwow Modified for braindead");
+
 
         uint StatusCloseFar = 2970;
         uint StatusParamClose = 758;
